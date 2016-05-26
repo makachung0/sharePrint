@@ -1,0 +1,32 @@
+{
+  "name": "shareprint",
+  "version": "1.0.0",
+  "description": "SHHO Share Print Project",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "express": "^4.13.4",
+    "fs": "0.0.2",
+    "http": "0.0.0",
+    "path": "^0.12.7",
+    "socketio": "^1.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "test",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/makachung0/sharePrint.git"
+  },
+  "keywords": [
+    "sharePrint"
+  ],
+  "author": "KeithMa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/makachung0/sharePrint/issues"
+  },
+  "homepage": "https://github.com/makachung0/sharePrint#readme"
+}
