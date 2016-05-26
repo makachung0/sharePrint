@@ -4,6 +4,7 @@
   "description": "SHHO Share Print Project",
   "main": "server.js",
   "dependencies": {
+    "blueimp-file-upload-node": "^2.1.0",
     "body-parser": "^1.15.1",
     "express": "^4.13.4",
     "fs": "0.0.2",
