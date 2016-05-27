@@ -1,24 +1,40 @@
-var http = require("http"),
-    url = require("url"),
-    path = require("path"),
-    fs = require("fs"),
-    express = require('express'),
-    port = process.argv[2] || 8888;
+var http = require("http");
+var url = require("url");
+var path = require("path");
+var fs = require("fs");
+var express = require("express");
+var fileUpload = require('express-fileupload');
 
 var app = express();
-
-var bodyParser = require('body-parser');
-app.use(bodyParser.json()); // support json encoded bodies
-
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(fileUpload());
 
+
+//index.html
 app.get('/', function(req, res) {
     res.sendFile(__dirname + '/public/index.html');
 
 });
 
-app.post('/', function(req, res) {
-    console.log(req.body);
+//upload file
+app.post('/upload', function(req, res) {
+    var sampleFile;
+
+    if (!req.files) {
+        res.send('No files were uploaded.');
+        return;
+    }
+
+    console.log(req.files);
+    sampleFile = req.files.sampleFile;
+    fs.writeFile(__dirname+"/public/temp/"+sampleFile.name+".jpg", sampleFile.data, function(err) {
+        if (err) {
+            return console.log(err);
+        }
+
+        console.log("The file was saved!");
+        res.send("ok");
+    });
     
 });
 

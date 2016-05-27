@@ -7,13 +7,7 @@ $(document).ready(function() {
         location.href = "/pages/homepage.html"
     });
 
-    // Variable to store your files
     
-    $("#fileupload").on('change', prepareUpload);
-
-    function prepareUpload(){
-    	var files = $("#fileupload").val();
-    }
 
 });
 

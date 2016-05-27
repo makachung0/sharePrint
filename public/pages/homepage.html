@@ -12,10 +12,15 @@
 
 <body>
     <H1>Homepage</H1>
-    <form id="form" class="login-form">
-        <input id="fileupload" type="file" name="files">
-        <button id="uploadbutton" type="submit">Print</button>
-    </form>
+    
+    <form ref='uploadForm' 
+			id='uploadForm' 
+			action='http://localhost:3000/upload' 
+			method='post' 
+			encType="multipart/form-data">
+				<input type="file" name="sampleFile" />
+				<input type='submit' value='Upload!' />
+	</form>
 </body>
 
 </html>
