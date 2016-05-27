@@ -1,2 +1,2 @@
 
-node_modules/blueimp-file-upload-node/node_modules/.bin/static
+node_modules/*
