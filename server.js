@@ -27,7 +27,7 @@ app.post('/upload', function(req, res) {
 
     console.log(req.files);
     sampleFile = req.files.sampleFile;
-    fs.writeFile(__dirname+"/public/temp/"+sampleFile.name+".jpg", sampleFile.data, function(err) {
+    fs.writeFile(__dirname+"/public/temp/"+sampleFile.name, sampleFile.data, function(err) {
         if (err) {
             return console.log(err);
         }
@@ -41,3 +41,4 @@ app.post('/upload', function(req, res) {
 
 app.server = http.createServer(app);
 app.server.listen(3000);
+console.log("Starting Server at Localhost:3000");
