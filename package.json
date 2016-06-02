@@ -4,12 +4,14 @@
   "description": "SHHO Share Print Project",
   "main": "server.js",
   "dependencies": {
+    "body-parser": "^1.15.1",
     "express": "^4.13.4",
     "express-fileupload": "0.0.5",
     "fs": "0.0.2",
     "http": "0.0.0",
     "node-printer": "^1.0.2",
     "path": "^0.12.7",
+    "pdf2json": "^1.1.5",
     "socket.io": "^1.4.6"
   },
   "devDependencies": {},

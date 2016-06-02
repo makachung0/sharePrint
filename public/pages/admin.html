@@ -1,23 +1,31 @@
 <html lang="en-US">
 <meta charset="utf-8">
-<title>Share Print</title>
+<title>Share Print Admin</title>
 <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js" integrity="sha256-55Jz3pBCF8z9jBO1qQ7cIf0L+neuPTD1u7Ytzrp2dqo=" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.js"></script>
-<script src="/js/homepageController.js"></script>
+<script src="/js/adminController.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <link rel="stylesheet" href="/css/style.css">
 
 <body>
-    <H1 id="title"></H1>
-    
-    <form ref='uploadForm' id='uploadForm' action='http://localhost:3000/upload' method='post' encType="multipart/form-data">
-    	<input id="name" type="hidden" name="account">
-        <input type="file" name="sampleFile" />
-        <input type='submit' value='Upload!' />
+    <H1 id="admin_title">Admin Page</H1>
+    <br>
+    <form>
+        <input id="username" type="text" placeholder="username" />
+        <button id="search" type="button">Search</button>
     </form>
+
+    <table style="width:100%" id="history">
+    	<tr>
+    		<th>Date</th>
+    		<th>Filename</th>
+    		<th>Fee ($)</th>
+    	</tr>
+
+    
 </body>
 
 </html>

@@ -1,5 +1,4 @@
-//global variable
-
+//after upload
 
 //Welcome Div
 var myapp = angular.module("mainApp", []);
