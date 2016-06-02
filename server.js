@@ -6,7 +6,7 @@ var express = require("express");
 var fileUpload = require('express-fileupload');
 var Printer = require('node-printer');
 var PDFParser = require('pdf2json');
-var bodyParser = require('body-Parser');
+// var bodyParser = require('body-Parser');
 
 var app = express();
 app.use(express.static(path.join(__dirname, 'public')));
