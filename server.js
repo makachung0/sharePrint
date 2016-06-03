@@ -77,6 +77,9 @@ app.post('/upload', function(req, res) {
 app.post('/login', function(req, res) {
     var queryname = req.body.username;
     var querypassword = req.body.password;
+    console.log('login');
+    console.log(queryname);
+    console.log(querypassword);
 
     fs.readFile(__dirname + "/account.json", function read(err, data) {
         if (err) {
@@ -86,13 +89,16 @@ app.post('/login', function(req, res) {
         var dataObject = JSON.parse(data.toString());
 
         for (var i = 0; i < dataObject.record.length; i++) {
+
             if (dataObject.record[i].username == queryname && dataObject.record[i].password == querypassword) {
                 res.send('ok');
-            } else {
-                res.send('fail');
+                var boolean = 1;
             }
         }
 
+        if (!boolean) {
+            res.send('fail');
+        }
     });
 });
 
@@ -104,7 +110,7 @@ app.post('/adduser', function(req, res) {
         }
 
         var dataObject = JSON.parse(data.toString());
-        var packet ={};
+        var packet = {};
         packet.username = addname;
         packet.history = {};
         packet.password = new Date().getTime().toString();
