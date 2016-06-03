@@ -112,7 +112,7 @@ app.post('/adduser', function(req, res) {
         var dataObject = JSON.parse(data.toString());
         var packet = {};
         packet.username = addname;
-        packet.history = {};
+        packet.history = [];
         packet.password = new Date().getTime().toString();
         dataObject.record.push(packet);
 
@@ -125,7 +125,35 @@ app.post('/adduser', function(req, res) {
         });
 
     })
-})
+});
+
+app.post('/paid', function(req, res) {
+  console.log('paid');
+    var paidname = req.body.paidname;
+    fs.readFile(__dirname + "/account.json", function read(err, data) {
+        if (err) {
+            throw err;
+        }
+        var dataObject = JSON.parse(data.toString());
+        var found = findUser(paidname, data);
+        if (typeof(found) != "undefined") {
+            dataObject.record[found].history=[];
+            console.log("history cleared");
+            
+            fs.writeFile(__dirname+ "/account.json", JSON.stringify(dataObject), function(err){
+              if(err){
+                return console.log(err);
+              }
+              console.log("success");
+              res.send("success");
+            });
+
+        } else {
+            res.send('user-not-found');
+        }
+
+    })
+});
 
 function printItem(filename, username) {
     console.log('Printing Item');

@@ -27,4 +27,13 @@ $(document).ready(function() {
             
         });
     });
+
+    $("#paid").click(function() {
+        var username = $("#username").val();
+        $.post("/paid", { "paidname": username }, function(result) {
+            console.log(result);
+            alert(result);
+            
+        });
+    });
 });
