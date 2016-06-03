@@ -12,12 +12,30 @@
 
 <body>
     <H1 id="title"></H1>
-    
-    <form ref='uploadForm' id='uploadForm' action='http://localhost:3000/upload' method='post' encType="multipart/form-data">
-    	<input id="name" type="hidden" name="account">
-        <input type="file" name="sampleFile" />
-        <input type='submit' value='Upload!' />
+    <H3>Notice: Currently, Only PDF file is supported!</H3>
+    <p>
+        <button id="gotoPrint" type="button"> Create New Print Job</button>
+        <!-- <form>
+    <input type="file">Create New Print Job>
     </form>
+ -->
+        <H2>History:</H2>
+        <p>
+            <table style="width:100%" id="history">
+                <tr>
+                    <th>Date</th>
+                    <th>Filename</th>
+                    <th>Fee ($)</th>
+                </tr>
+            </table>
+            <H2>Current Print Job:</H2>
+            <p id="show"></p>
+
+            <form id='fileinput' action='http://localhost:3000/upload' method='post' encType="multipart/form-data" style="visibility:hidden">
+                <input id="name" type="hidden" name="name" />
+                <input type="file" name="file" />
+                <input type='submit' value='Print' />
+            </form>
 </body>
 
 </html>

@@ -6,12 +6,12 @@ var express = require("express");
 var fileUpload = require('express-fileupload');
 var Printer = require('node-printer');
 var PDFParser = require('pdf2json');
-// var bodyParser = require('body-Parser');
 
 var app = express();
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileUpload());
 
+//options for printer
 var options = {
     media: 'Custom.200x600mm',
     n: 3
@@ -23,72 +23,73 @@ app.get('/', function(req, res) {
 
 });
 
-// app.get('/admin', function(req, res){
-//     res.sendFile(__dirname + 'public/admin.html');
-// });
-
+//search
 app.post('/search', function(req, res) {
-    console.log('Search Function');
     var queryname = req.body.queryname;
     fs.readFile(__dirname + "/account.json", function read(err, data) {
         if (err) {
             throw err;
         }
-
+        var dataObject = JSON.parse(data.toString());
         var found = findUser(queryname, data);
-        console.log("found: " + found);
         if (typeof(found) != "undefined") {
-            // console.log(JSON.parse(data.toString()).record[found]);
-            var history = JSON.parse(data.toString()).record[found].history;
+            var history = dataObject.record[found].history;
             console.log(history);
+            res.send(history);
+        } else {
+            res.send('user-not-found');
         }
-        res.send(history);
+
     })
 });
 
 //upload file
 app.post('/upload', function(req, res) {
-    var sampleFile;
-    var accountName = req.body.account;
+    console.log("upload");
 
+    var tempFile = req.files.file;
+    var tempName = req.body.name;
 
     if (!req.files) {
-        res.send('No files were uploaded.');
+        res.send('no-file');
         return;
     }
 
-    // console.log(req.files);
-    // console.log(req.body.account);
-
-    sampleFile = req.files.sampleFile;
-    fs.writeFile(__dirname + "/public/temp/" + sampleFile.name, sampleFile.data, function(err) {
+    fs.writeFile(__dirname + "/public/temp/" + tempFile.name, tempFile.data, function(err) {
         if (err) {
             return console.log(err);
         }
 
         console.log("The file was saved!");
-        res.sendFile(__dirname + '/public/pages/personal.html');
+        res.send("upload-ok");
 
+
+        printItem(tempFile.name, tempName);
     });
 
-    printItem(sampleFile.name, accountName);
+
+    
 
 });
 
-//login
+
+//login function
 app.post('/login', function(req, res) {
-    console.log("login detected");
+    var queryname = req.body.username;
 
     fs.readFile(__dirname + "/account.json", function read(err, data) {
         if (err) {
             throw err;
         }
-        for (var i = 0; i < JSON.parse(data.toString()).record.length; i++) {
-            if (JSON.parse(data.toString()).record[i].username == req.body.username) {
-                console.log('OK');
+
+        var dataObject = JSON.parse(data.toString());
+
+        for (var i = 0; i < dataObject.record.length; i++) {
+            if (dataObject.record[i].username == queryname) {
                 var boolean = 1;
             }
         }
+
         if (boolean) {
             res.send('ok');
         } else {
@@ -98,52 +99,48 @@ app.post('/login', function(req, res) {
     });
 });
 
-function printItem(sampleFileName, accountName) {
+function printItem(filename, username) {
     console.log('Printing Item');
+
+    // printer setting
     // var printer = new Printer('FX_DocuPrint_P265_dw');
-    // var jobFromFile = printer.printFile(__dirname+"/public/temp/"+sampleFileName);
+    // var jobFromFile = printer.printFile(__dirname+"/public/temp/"+filename);
+
     var now = new Date();
-    console.log(now);
     var pdfParser = new PDFParser();
+    pdfParser.loadPDF(__dirname + '/public/temp/' + filename);
+    console.log(filename);
+
 
     pdfParser.on('pdfParser_dataReady', function(pdfData) {
         console.log(pdfData.formImage.Pages.length);
+        console.log('hi');
 
-        fs.readFile(__dirname+"/account.json", function read(err, data){
-          if(err){
-            throw err;
-          }
-          
-          console.log("data before:");
-          console.log(JSON.parse(data.toString()));
-
-          var packet = {};
-          packet.date = now;
-          packet.filename = sampleFileName;
-          packet.fee = pdfData.formImage.Pages.length;
-          var newData = JSON.parse(data.toString());
-          newData.record[0].history.push(packet);
-
-          // JSON.parse(data.toString()).record[findUser(accountName, data)].history.date = now;
-          // JSON.parse(data.toString()).record[findUser(accountName, data)].history.filename = sampleFileName;
-          // JSON.parse(data.toString()).record[findUser(accountName, data)].history.fee = pdfData.formImage.Pages.length;
-          
-          console.log("data after");
-          console.log(JSON.stringify(newData));
-
-          fs.writeFile(__dirname+"/account.json", JSON.stringify(newData), function(err){
-            if(err){
-              return console.log(err);
+        fs.readFile(__dirname + "/account.json", function read(err, data) {
+            console.log('reading data');
+            if (err) {
+                throw err;
             }
-            console.log("搞掂");
-          });
 
-          
+            var packet = {};
+            packet.date = now;
+            packet.filename = filename;
+            packet.fee = pdfData.formImage.Pages.length;
+            var newData = JSON.parse(data.toString());
+            newData.record[0].history.push(packet);
+
+
+            fs.writeFile(__dirname + "/account.json", JSON.stringify(newData), function(err) {
+                if (err) {
+                    return console.log(err);
+                }
+                console.log("done");
+            });
+
+
         });
     });
-    // pdfParser.on('pdfParser_dataError', _.bind(_onPFBinDataError, self));
 
-    pdfParser.loadPDF(__dirname + '/' + sampleFileName);
 
 }
 
