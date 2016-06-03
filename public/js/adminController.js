@@ -18,4 +18,13 @@ $(document).ready(function() {
         });
     });
 
+
+    $("#add").click(function() {
+        var username = $("#username").val();
+        $.post("/adduser", { "addname": username }, function(result) {
+            console.log(result);
+            alert(result);
+            
+        });
+    });
 });
