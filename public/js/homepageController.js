@@ -34,6 +34,22 @@ $(document).ready(function() {
 
     $("#name").val(localStorage.getItem("username"));
 
-    
+    $("#changePassword").click(function() {
+        console.log('changePassword');
 
+        var e = document.getElementById("passwordinput");
+        if(e.style.visibility == 'hidden')
+            e.style.visibility = 'visible';
+        else
+            e.style.visibility = 'hidden';
+    })
 });
+
+function changePw(){
+    console.log('changePw');
+
+    // [to do] change password logic here
+
+    var e = document.getElementById("pwmessage");
+    e.style.visibility = 'visible';
+}

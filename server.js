@@ -20,7 +20,6 @@ var options = {
 //index.html
 app.get('/', function(req, res) {
     res.sendFile(__dirname + '/public/index.html');
-
 });
 
 //search
@@ -63,15 +62,9 @@ app.post('/upload', function(req, res) {
         console.log("The file was saved!");
         res.send("upload-ok");
 
-
         printItem(tempFile.name, tempName);
     });
-
-
-
-
 });
-
 
 //login function
 app.post('/login', function(req, res) {
@@ -209,7 +202,6 @@ function findUser(queryname, data) {
         console.log("i:" + i);
     }
 }
-
 
 app.server = http.createServer(app);
 app.server.listen(3000);

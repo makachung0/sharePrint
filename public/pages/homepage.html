@@ -1,5 +1,6 @@
 <html lang="en-US">
 <meta charset="utf-8">
+<head>
 <title>Share Print</title>
 <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js" integrity="sha256-55Jz3pBCF8z9jBO1qQ7cIf0L+neuPTD1u7Ytzrp2dqo=" crossorigin="anonymous"></script>
@@ -9,7 +10,10 @@
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <link rel="stylesheet" href="/css/style.css">
+<script type="text/javascript">
 
+</script>
+</head>
 <body>
     <H1 id="title"></H1>
     <H3>Notice: Currently, Only PDF file is supported!</H3>
@@ -36,6 +40,15 @@
                 <input type="file" name="file" />
                 <input type='submit' value='Print' />
             </form>
+        </p>
+
+        <button id="changePassword" type="button">Change Password</button>
+        <form id='passwordinput' action="javascript:changePw();" method='post' style="visibility:hidden">
+            <input id="oldpw" type="password" placeholder="old password"/><br>
+            <input id="newpw" type="password" placeholder="new password"/><br>
+            <input type='submit' value='Confirm' />
+        </form>
+        <div id="pwmessage" style="visibility:hidden"><H5>Password changed successfully.</H5></div>
 </body>
 
 </html>
