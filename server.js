@@ -164,7 +164,7 @@ function printItem(filename, username) {
     pdfParser.on('pdfParser_dataReady', function(pdfData) {
         console.log(pdfData.formImage.Pages.length);
         console.log('hi');
-
+ 
         fs.readFile(__dirname + "/account.json", function read(err, data) {
             console.log('reading data');
             if (err) {
@@ -189,8 +189,6 @@ function printItem(filename, username) {
 
         });
     });
-
-
 }
 
 function findUser(queryname, data) {
@@ -202,6 +200,41 @@ function findUser(queryname, data) {
         console.log("i:" + i);
     }
 }
+
+app.post('/changepw', function(req, res) {
+    var queryname = req.body.queryname;
+    var querypassword = req.body.querypassword;
+    var newpw = req.body.newpw;
+    var retypepw = req.body.retypepw;
+
+    console.log(querypassword);
+    console.log(newpw);
+    console.log(retypepw);
+
+    fs.readFile(__dirname + "/account.json", function read(err, data) {
+        if (err) {
+            throw err;
+        }
+        var dataObject = JSON.parse(data.toString());
+        var found = findUser(queryname, data);
+        if (dataObject.record[found].password == querypassword) {
+            if (newpw == retypepw) {
+                dataObject.record[found].password = newpw;
+
+                fs.writeFile(__dirname + "/account.json", JSON.stringify(dataObject), function(err) {
+                        if (err) {
+                            return console.log(err);
+                        }
+                        console.log("done");
+                });
+            } else {
+                console.log("new passwords do not match");
+            }
+        } else {
+            console.log("old password incorrect");
+        }
+    })
+});
 
 app.server = http.createServer(app);
 app.server.listen(3000);

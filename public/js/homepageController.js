@@ -1,4 +1,5 @@
 //homepageController
+// var fs = require("fs");
 
 $(document).ready(function() {
 
@@ -46,9 +47,22 @@ $(document).ready(function() {
 });
 
 function changePw(){
-    console.log('changePw');
+    var username = localStorage.getItem("username");
 
-    // [to do] change password logic here
+    // get html form values
+    var oldpw = document.getElementById("oldpw").value;
+    var newpw = document.getElementById("newpw").value;
+    var retypepw = document.getElementById("retypepw").value;
+
+    $.post("/changepw", { 
+            "queryname": username, 
+            "querypassword": oldpw, 
+            "newpw": newpw,
+            "retypepw": retypepw
+        }, function(result) {
+            console.log("password changed");
+            console.log(result);
+        });
 
     var e = document.getElementById("pwmessage");
     e.style.visibility = 'visible';
