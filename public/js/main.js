@@ -14,7 +14,10 @@ $(document).ready(function() {
                 location.href = "/pages/homepage.html"
             } else if (result == "fail") {
                 alert("Invalid Username");
-            } else {
+            } else if (result == "admin"){
+                location.href = "/pages/admin.html"
+                localStorage.setItem("admin", "ok");
+            }else {
                 alert("Server Error");
             }
         });

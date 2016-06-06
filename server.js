@@ -25,21 +25,15 @@ app.get('/', function(req, res) {
 //search
 app.post('/search', function(req, res) {
     var queryname = req.body.queryname;
-    fs.readFile(__dirname + "/account.json", function read(err, data) {
-        if (err) {
-            throw err;
-        }
-        var dataObject = JSON.parse(data.toString());
+    readFile(function(dataObject) {
         var found = findUser(queryname, data);
         if (typeof(found) != "undefined") {
             var history = dataObject.record[found].history;
-            console.log(history);
             res.send(history);
         } else {
             res.send('user-not-found');
-        }
-
-    })
+        };
+    });
 });
 
 //upload file
@@ -49,79 +43,84 @@ app.post('/upload', function(req, res) {
     var tempFile = req.files.file;
     var tempName = req.body.name;
 
+    readFile(function(dataObject) {
+        for (var i = 0; i < dataObject.record.length; i++) {
+            if (tempName == dataObject.record[i].username) {
+                var isUser = 1;
+                continue;
+            }
+        }
+    });
+
     if (!req.files) {
         res.send('no-file');
         return;
     }
 
-    fs.writeFile(__dirname + "/public/temp/" + tempFile.name, tempFile.data, function(err) {
-        if (err) {
-            return console.log(err);
-        }
+    if (isUser) {
+        writeFile(tempFile.data, "/public/temp" + tempFile.name, function() {
+            printItem(tempFile.name, tempName);
+            res.send('print');
+        });
+    } else {
+        res.send('not-user');
+    }
 
-        console.log("The file was saved!");
-        res.send("upload-ok");
-
-        printItem(tempFile.name, tempName);
-    });
 });
 
 //login function
 app.post('/login', function(req, res) {
     var queryname = req.body.username;
     var querypassword = req.body.password;
-    console.log('login');
-    console.log(queryname);
-    console.log(querypassword);
 
-    fs.readFile(__dirname + "/account.json", function read(err, data) {
-        if (err) {
-            throw err;
-        }
+    if (queryname == "admin" && querypassword == "maintain") {
+        return res.send('admin');
+    } else {
 
-        var dataObject = JSON.parse(data.toString());
+        readFile(function(dataObject) {
+            for (var i = 0; i < dataObject.record.length; i++) {
 
-        for (var i = 0; i < dataObject.record.length; i++) {
-
-            if (dataObject.record[i].username == queryname && dataObject.record[i].password == querypassword) {
-                res.send('ok');
-                var boolean = 1;
+                if (dataObject.record[i].username == queryname && dataObject.record[i].password == querypassword) {
+                    res.send('ok');
+                    var boolean = 1;
+                }
             }
-        }
 
-        if (!boolean) {
-            res.send('fail');
-        }
-    });
+            if (!boolean) {
+                res.send('fail');
+            }
+        });
+
+    }
 });
 
 app.post('/adduser', function(req, res) {
     var addname = req.body.addname;
-    fs.readFile(__dirname + "/account.json", function read(err, data) {
-        if (err) {
-            throw err;
+
+    readFile(function(dataObject) {
+
+        for (var i = 0; i < dataObject.record.length; i++) {
+            if (addname == dataObject.record[i].username) {
+                return res.send("duplicate");
+            }
         }
 
-        var dataObject = JSON.parse(data.toString());
         var packet = {};
         packet.username = addname;
         packet.history = [];
         packet.password = new Date().getTime().toString();
+        packet.credit = 0;
         dataObject.record.push(packet);
 
-        fs.writeFile(__dirname + "/account.json", JSON.stringify(dataObject), function(err) {
-            if (err) {
-                return console.log(err);
-            }
-            console.log("done");
+        writeFile(JSON.stringify(dataObject), "/account.json", function() {
             res.send(packet.password);
         });
 
-    })
+    });
+
 });
 
 app.post('/paid', function(req, res) {
-  console.log('paid');
     var paidname = req.body.paidname;
     fs.readFile(__dirname + "/account.json", function read(err, data) {
         if (err) {
@@ -130,15 +129,15 @@ app.post('/paid', function(req, res) {
         var dataObject = JSON.parse(data.toString());
         var found = findUser(paidname, data);
         if (typeof(found) != "undefined") {
-            dataObject.record[found].history=[];
+            dataObject.record[found].history = [];
             console.log("history cleared");
-            
-            fs.writeFile(__dirname+ "/account.json", JSON.stringify(dataObject), function(err){
-              if(err){
-                return console.log(err);
-              }
-              console.log("success");
-              res.send("success");
+
+            fs.writeFile(__dirname + "/account.json", JSON.stringify(dataObject), function(err) {
+                if (err) {
+                    return console.log(err);
+                }
+                console.log("success");
+                res.send("success");
             });
 
         } else {
@@ -149,8 +148,11 @@ app.post('/paid', function(req, res) {
 });
 
 function printItem(filename, username) {
-    console.log('Printing Item');
-
+    var fileExt = path.extname(filename);
+    
+    if (fileExt != '.pdf'){
+        return res.send('not-pdf');
+    }
     // printer setting
     // var printer = new Printer('FX_DocuPrint_P265_dw');
     // var jobFromFile = printer.printFile(__dirname+"/public/temp/"+filename);
@@ -163,8 +165,7 @@ function printItem(filename, username) {
 
     pdfParser.on('pdfParser_dataReady', function(pdfData) {
         console.log(pdfData.formImage.Pages.length);
-        console.log('hi');
- 
+
         fs.readFile(__dirname + "/account.json", function read(err, data) {
             console.log('reading data');
             if (err) {
@@ -191,6 +192,10 @@ function printItem(filename, username) {
     });
 }
 
+function writeHistory(username){
+    
+}
+
 function findUser(queryname, data) {
     console.log("queryname: " + queryname);
     for (var i = 0; i < JSON.parse(data.toString()).record.length; i++) {
@@ -199,6 +204,26 @@ function findUser(queryname, data) {
         }
         console.log("i:" + i);
     }
+}
+
+function readFile(callback) {
+    fs.readFile(__dirname + "/account.json", function read(err, data) {
+        if (err) {
+            throw err;
+        }
+        var dataObject = JSON.parse(data.toString());
+        callback(dataObject);
+    });
+
+}
+
+function writeFile(data, dir, callback) {
+    fs.writeFile(__dirname + dir, data, function(err) {
+        if (err) {
+            return console.log(err);
+        }
+        callback();
+    })
 }
 
 app.post('/changepw', function(req, res) {
@@ -222,10 +247,10 @@ app.post('/changepw', function(req, res) {
                 dataObject.record[found].password = newpw;
 
                 fs.writeFile(__dirname + "/account.json", JSON.stringify(dataObject), function(err) {
-                        if (err) {
-                            return console.log(err);
-                        }
-                        console.log("done");
+                    if (err) {
+                        return console.log(err);
+                    }
+                    console.log("done");
                 });
             } else {
                 console.log("new passwords do not match");
