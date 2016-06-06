@@ -26,7 +26,7 @@ app.get('/', function(req, res) {
 app.post('/search', function(req, res) {
     var queryname = req.body.queryname;
     readFile(function(dataObject) {
-        var found = findUser(queryname, data);
+        var found = findUser(queryname, dataObject);
         if (typeof(found) != "undefined") {
             var history = dataObject.record[found].history;
             res.send(history);
@@ -193,13 +193,13 @@ function printItem(filename, username) {
 }
 
 function writeHistory(username){
-    
+
 }
 
-function findUser(queryname, data) {
+function findUser(queryname, dataObject) {
     console.log("queryname: " + queryname);
-    for (var i = 0; i < JSON.parse(data.toString()).record.length; i++) {
-        if (JSON.parse(data.toString()).record[i].username == queryname) {
+    for (var i = 0; i < dataObject.record.length; i++) {
+        if (dataObject.record[i].username == queryname) {
             return i;
         }
         console.log("i:" + i);
