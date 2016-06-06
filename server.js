@@ -38,33 +38,22 @@ app.post('/search', function(req, res) {
 
 //upload file
 app.post('/upload', function(req, res) {
-    console.log("upload");
-
     var tempFile = req.files.file;
     var tempName = req.body.name;
 
-    readFile(function(dataObject) {
-        for (var i = 0; i < dataObject.record.length; i++) {
-            if (tempName == dataObject.record[i].username) {
-                var isUser = 1;
-                continue;
-            }
-        }
-    });
+    if (typeof(tempName) == "undefined") {
+        return res.send('not-user');
+    }
 
     if (!req.files) {
         res.send('no-file');
         return;
     }
 
-    if (isUser) {
-        writeFile(tempFile.data, "/public/temp" + tempFile.name, function() {
-            printItem(tempFile.name, tempName);
-            res.send('print');
-        });
-    } else {
-        res.send('not-user');
-    }
+    writeFile(tempFile.data, "/public/temp/" + tempFile.name, function() {
+        printItem(tempFile.name, tempName);
+        res.send('print');
+    });
 
 });
 
@@ -122,6 +111,7 @@ app.post('/adduser', function(req, res) {
 
 app.post('/paid', function(req, res) {
     var paidname = req.body.paidname;
+
     fs.readFile(__dirname + "/account.json", function read(err, data) {
         if (err) {
             throw err;
@@ -149,8 +139,8 @@ app.post('/paid', function(req, res) {
 
 function printItem(filename, username) {
     var fileExt = path.extname(filename);
-    
-    if (fileExt != '.pdf'){
+
+    if (fileExt != '.pdf') {
         return res.send('not-pdf');
     }
     // printer setting
@@ -192,7 +182,7 @@ function printItem(filename, username) {
     });
 }
 
-function writeHistory(username){
+function writeHistory(username) {
 
 }
 
