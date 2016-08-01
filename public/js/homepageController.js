@@ -27,7 +27,11 @@ $(document).ready(function() {
         console.log('gotoPrint');
 
 
-        $("#fileinput").css("visibility", "visible");
+        $("#input").unbind().click().change(function(e){
+            console.log('file changed');
+            $("#fileinput").css("visibility", "visible");
+        
+        });
 
 
             // location.href = "/pages/personal.html"
