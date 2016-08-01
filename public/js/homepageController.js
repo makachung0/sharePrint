@@ -1,10 +1,25 @@
 //homepageController
-// var fs = require("fs");
 
 $(document).ready(function() {
 
+    //modal variables
+    var modal = document.getElementById('myModal');
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        console.log(event.target);
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
     //get Username to send to server
-    // $("#name").val(localStorage.getItem("username"));
 
     //Homepage Welcome Message
     $("#title").html("Hi, " + localStorage.getItem("username"));
@@ -23,19 +38,22 @@ $(document).ready(function() {
         }
     });
 
-    $("#gotoPrint").click(function() {
-        console.log('gotoPrint');
+    //Create Print Job
+    $("#newJob").click(function() {
 
-
-        $("#input").unbind().click().change(function(e){
+        $("#input").unbind().click().change(function(e) {
             console.log('file changed');
             $("#fileinput").css("visibility", "visible");
-        
+
         });
 
-
-            // location.href = "/pages/personal.html"
     });
+
+    $("#historyBtn").click(function() {
+        modal.style.display = "block";
+    });
+
+
 
     $("#name").val(localStorage.getItem("username"));
 
@@ -43,14 +61,14 @@ $(document).ready(function() {
         console.log('changePassword');
 
         var e = document.getElementById("passwordinput");
-        if(e.style.visibility == 'hidden')
+        if (e.style.visibility == 'hidden')
             e.style.visibility = 'visible';
         else
             e.style.visibility = 'hidden';
     })
 });
 
-function changePw(){
+function changePw() {
     var username = localStorage.getItem("username");
 
     // get html form values
@@ -58,15 +76,15 @@ function changePw(){
     var newpw = document.getElementById("newpw").value;
     var retypepw = document.getElementById("retypepw").value;
 
-    $.post("/changepw", { 
-            "queryname": username, 
-            "querypassword": oldpw, 
-            "newpw": newpw,
-            "retypepw": retypepw
-        }, function(result) {
-            console.log("password changed");
-            console.log(result);
-        });
+    $.post("/changepw", {
+        "queryname": username,
+        "querypassword": oldpw,
+        "newpw": newpw,
+        "retypepw": retypepw
+    }, function(result) {
+        console.log("password changed");
+        console.log(result);
+    });
 
     var e = document.getElementById("pwmessage");
     e.style.visibility = 'visible';

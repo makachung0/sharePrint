@@ -4,7 +4,6 @@ $(document).ready(function() {
 
     //Login Function
     $("#login").click(function() {
-        console.log('i clicked');
         var username = $("#username").val();
         var password = $("#password").val();
         localStorage.setItem("username", username);
@@ -13,7 +12,7 @@ $(document).ready(function() {
             if (result == "ok") {
                 location.href = "/pages/homepage.html"
             } else if (result == "fail") {
-                alert("Invalid Username");
+                alert("Invalid Login Credentials");
             } else if (result == "admin"){
                 location.href = "/pages/admin.html"
                 localStorage.setItem("admin", "ok");
@@ -23,8 +22,8 @@ $(document).ready(function() {
         });
 
     });
-
    
 });
 
+//avoiding empty form submmit
 function donothing(){};

@@ -1,55 +1,85 @@
 <html lang="en-US">
 <meta charset="utf-8">
-<head>
-<title>Share Print</title>
-<script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js" integrity="sha256-55Jz3pBCF8z9jBO1qQ7cIf0L+neuPTD1u7Ytzrp2dqo=" crossorigin="anonymous"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.js"></script>
-<script src="/js/homepageController.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-<link rel="stylesheet" href="/css/style.css">
-<script type="text/javascript">
 
-</script>
+<head>
+    <title>Share Print</title>
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js" integrity="sha256-55Jz3pBCF8z9jBO1qQ7cIf0L+neuPTD1u7Ytzrp2dqo=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.js"></script>
+    <script src="/js/homepageController.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript">
+    </script>
 </head>
+
 <body>
+    Development Use: Elements to have 1. Welcome Bar 2. Menu Bar 2.1 New Job Button 2.2 Change Password Button 2.3 Check History Button 2.4 Home Button 3. Dashboard for notice and analysis
+    <!-- Temporary Welcome Bar -->
     <H1 id="title"></H1>
+    <!-- Temporary Notice Board -->
     <H3>Notice: Currently, Only PDF file is supported!</H3>
     <p>
-        <button id="gotoPrint" type="button"> Create New Print Job</button>
-        <!-- <form>
+        <!-- 2.1 -->
+        <button id="newJob" type="button"> New Job</button>
+        <p>
+            <!-- 2.2 -->
+            <button id="changePassword" type="button">Change Password</button>
+            <p>
+                <!-- 2.3 -->
+                <button id="historyBtn" type="button">History</button>
+                <!-- modal example -->
+                <div id="myModal" class="modal">
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span class="close">×</span>
+                            <h2>Modal Header</h2>
+                        </div>
+                        <div class="modal-body">
+                            <p>Some text in the Modal Body</p>
+                            <p>Some other text...</p>
+                        </div>
+                        <div class="modal-footer">
+                            <h3>Modal Footer</h3>
+                        </div>
+                    </div>
+                </div>
+                <!-- <form>
     <input type="file">Create New Print Job>
     </form>
  -->
-        <H2>History:</H2>
-        <p>
-            <table style="width:100%" id="history">
-                <tr>
-                    <th>Date</th>
-                    <th>Filename</th>
-                    <th>Fee ($)</th>
-                </tr>
-            </table>
-            <H2>Current Print Job:</H2>
-            <p id="show"></p>
-
-            <form id='fileinput' action='http://localhost:3000/upload' method='post' encType="multipart/form-data" style="visibility:hidden">
-                <input id="name" type="hidden" name="name" />
-                <input id="input" type="file" name="file" />
-                <input type='submit' value='Print' />
-            </form>
-        </p>
-
-        <button id="changePassword" type="button">Change Password</button>
-        <form id='passwordinput' action="javascript:changePw();" method='post' style="visibility:hidden">
-            <input id="oldpw" type="password" placeholder="old password"/><br>
-            <input id="newpw" type="password" placeholder="new password"/><br>
-            <input id="retypepw" type="password" placeholder="retype new password"/><br>
-            <input type='submit' value='Confirm' />
-        </form>
-        <div id="pwmessage" style="visibility:hidden"><H5>Password changed successfully.</H5></div>
+                <H2>History:</H2>
+                <p>
+                    <table style="width:100%" id="history">
+                        <tr>
+                            <th>Date</th>
+                            <th>Filename</th>
+                            <th>Fee ($)</th>
+                        </tr>
+                    </table>
+                    <H2>Current Print Job:</H2>
+                    <p id="show"></p>
+                    <form id='fileinput' action='http://localhost:3000/upload' method='post' encType="multipart/form-data" style="visibility:hidden">
+                        <input id="name" type="hidden" name="name" />
+                        <input id="input" type="file" name="file" />
+                        <input type='submit' value='Print' />
+                    </form>
+                </p>
+                <form id='passwordinput' action="javascript:changePw();" method='post' style="visibility:hidden">
+                    <input id="oldpw" type="password" placeholder="old password" />
+                    <br>
+                    <input id="newpw" type="password" placeholder="new password" />
+                    <br>
+                    <input id="retypepw" type="password" placeholder="retype new password" />
+                    <br>
+                    <input type='submit' value='Confirm' />
+                </form>
+                <div id="pwmessage" style="visibility:hidden">
+                    <H5>Password changed successfully.</H5>
+                </div>
 </body>
 
 </html>

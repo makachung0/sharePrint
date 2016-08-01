@@ -17,11 +17,6 @@ var options = {
     n: 3
 };
 
-//index.html
-app.get('/', function(req, res) {
-    res.sendFile(__dirname + '/public/index.html');
-});
-
 //search
 app.post('/search', function(req, res) {
     var queryname = req.body.queryname;
@@ -55,32 +50,6 @@ app.post('/upload', function(req, res) {
         res.send('print');
     });
 
-});
-
-//login function
-app.post('/login', function(req, res) {
-    var queryname = req.body.username;
-    var querypassword = req.body.password;
-
-    if (queryname == "admin" && querypassword == "maintain") {
-        return res.send('admin');
-    } else {
-
-        readFile(function(dataObject) {
-            for (var i = 0; i < dataObject.record.length; i++) {
-
-                if (dataObject.record[i].username == queryname && dataObject.record[i].password == querypassword) {
-                    res.send('ok');
-                    var boolean = 1;
-                }
-            }
-
-            if (!boolean) {
-                res.send('fail');
-            }
-        });
-
-    }
 });
 
 app.post('/adduser', function(req, res) {
@@ -187,7 +156,7 @@ function writeHistory(username) {
 }
 
 function findUser(queryname, dataObject) {
-    console.log("queryname: " + queryname);
+    // console.log("queryname: " + queryname);
     for (var i = 0; i < dataObject.record.length; i++) {
         if (dataObject.record[i].username == queryname) {
             return i;
@@ -251,6 +220,28 @@ app.post('/changepw', function(req, res) {
     })
 });
 
+//Structure of server.js
+//only do stuffs on redirection and parse the request to controllers
+//in order to simplify server.js
+//all the server side controllers will be put into a dir calle controllers/
+
+//root access
+// app.get('/', function(req, res){
+//     //As node js auto find index.html, this function may not be useful
+//     require('controllers/loginController.js')(req, res);
+// });
+
+//login function
+app.post('/login', function(req, res) {
+    require('./controllers/loginController.js')(req, res);
+});
+
+
+
+
+
+
+//create server on port 3000
 app.server = http.createServer(app);
 app.server.listen(3000);
 console.log("Starting Server at Localhost:3000");
