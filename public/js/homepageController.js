@@ -3,20 +3,21 @@
 $(document).ready(function() {
 
     //modal variables
-    var modal = document.getElementById('myModal');
+    var newJobModal = document.getElementById('newJobModal');
     var span = document.getElementsByClassName("close")[0];
+    var passwordModal = document.getElementById('passwordModal');
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
         console.log(event.target);
-        if (event.target == modal) {
-            modal.style.display = "none";
+        if (event.target == newJobModal) {
+            newJobModal.style.display = "none";
         }
     }
 
     // When the user clicks on <span> (x), close the modal
     span.onclick = function() {
-        modal.style.display = "none";
+        newJobModal.style.display = "none";
     }
 
     //get Username to send to server
@@ -40,17 +41,18 @@ $(document).ready(function() {
 
     //Create Print Job
     $("#newJob").click(function() {
+        newJobModal.style.display = "block";
 
-        $("#input").unbind().click().change(function(e) {
-            console.log('file changed');
-            $("#fileinput").css("visibility", "visible");
+        // $("#input").unbind().click().change(function(e) {
+        //     console.log('file changed');
+        //     $("#fileinput").css("visibility", "visible");
 
-        });
+        // });
 
     });
 
     $("#historyBtn").click(function() {
-        modal.style.display = "block";
+        // modal.style.display = "block";
     });
 
 
@@ -59,6 +61,7 @@ $(document).ready(function() {
 
     $("#changePassword").click(function() {
         console.log('changePassword');
+        passwordModal.style.display = 'block';
 
         var e = document.getElementById("passwordinput");
         if (e.style.visibility == 'hidden')

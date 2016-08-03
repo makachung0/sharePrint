@@ -156,7 +156,7 @@ function writeHistory(username) {
 }
 
 function findUser(queryname, dataObject) {
-    // console.log("queryname: " + queryname);
+    console.log("queryname: " + queryname);
     for (var i = 0; i < dataObject.record.length; i++) {
         if (dataObject.record[i].username == queryname) {
             return i;
@@ -185,40 +185,40 @@ function writeFile(data, dir, callback) {
     })
 }
 
-app.post('/changepw', function(req, res) {
-    var queryname = req.body.queryname;
-    var querypassword = req.body.querypassword;
-    var newpw = req.body.newpw;
-    var retypepw = req.body.retypepw;
+// app.post('/changepw', function(req, res) {
+//     var queryname = req.body.queryname;
+//     var querypassword = req.body.querypassword;
+//     var newpw = req.body.newpw;
+//     var retypepw = req.body.retypepw;
 
-    console.log(querypassword);
-    console.log(newpw);
-    console.log(retypepw);
+//     console.log(querypassword);
+//     console.log(newpw);
+//     console.log(retypepw);
 
-    fs.readFile(__dirname + "/account.json", function read(err, data) {
-        if (err) {
-            throw err;
-        }
-        var dataObject = JSON.parse(data.toString());
-        var found = findUser(queryname, data);
-        if (dataObject.record[found].password == querypassword) {
-            if (newpw == retypepw) {
-                dataObject.record[found].password = newpw;
+//     fs.readFile(__dirname + "/account.json", function read(err, data) {
+//         if (err) {
+//             throw err;
+//         }
+//         var dataObject = JSON.parse(data.toString());
+//         var found = findUser(queryname, data);
+//         if (dataObject.record[found].password == querypassword) {
+//             if (newpw == retypepw) {
+//                 dataObject.record[found].password = newpw;
 
-                fs.writeFile(__dirname + "/account.json", JSON.stringify(dataObject), function(err) {
-                    if (err) {
-                        return console.log(err);
-                    }
-                    console.log("done");
-                });
-            } else {
-                console.log("new passwords do not match");
-            }
-        } else {
-            console.log("old password incorrect");
-        }
-    })
-});
+//                 fs.writeFile(__dirname + "/account.json", JSON.stringify(dataObject), function(err) {
+//                     if (err) {
+//                         return console.log(err);
+//                     }
+//                     console.log("done");
+//                 });
+//             } else {
+//                 console.log("new passwords do not match");
+//             }
+//         } else {
+//             console.log("old password incorrect");
+//         }
+//     })
+// });
 
 //Structure of server.js
 //only do stuffs on redirection and parse the request to controllers
@@ -236,6 +236,9 @@ app.post('/login', function(req, res) {
     require('./controllers/loginController.js')(req, res);
 });
 
+app.post('/changepw', function(req, res){
+    require('./controllers/password.js')(req, res);
+})
 
 
 

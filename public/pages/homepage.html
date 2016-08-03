@@ -21,53 +21,40 @@
     <H1 id="title"></H1>
     <!-- Temporary Notice Board -->
     <H3>Notice: Currently, Only PDF file is supported!</H3>
-    <p>
-        <!-- 2.1 -->
-        <button id="newJob" type="button"> New Job</button>
-        <p>
-            <!-- 2.2 -->
-            <button id="changePassword" type="button">Change Password</button>
-            <p>
-                <!-- 2.3 -->
-                <button id="historyBtn" type="button">History</button>
-                <!-- modal example -->
-                <div id="myModal" class="modal">
-                    <!-- Modal content -->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <span class="close">×</span>
-                            <h2>Modal Header</h2>
-                        </div>
-                        <div class="modal-body">
-                            <p>Some text in the Modal Body</p>
-                            <p>Some other text...</p>
-                        </div>
-                        <div class="modal-footer">
-                            <h3>Modal Footer</h3>
-                        </div>
-                    </div>
-                </div>
-                <!-- <form>
-    <input type="file">Create New Print Job>
-    </form>
- -->
-                <H2>History:</H2>
-                <p>
-                    <table style="width:100%" id="history">
-                        <tr>
-                            <th>Date</th>
-                            <th>Filename</th>
-                            <th>Fee ($)</th>
-                        </tr>
-                    </table>
-                    <H2>Current Print Job:</H2>
-                    <p id="show"></p>
-                    <form id='fileinput' action='http://localhost:3000/upload' method='post' encType="multipart/form-data" style="visibility:hidden">
-                        <input id="name" type="hidden" name="name" />
-                        <input id="input" type="file" name="file" />
-                        <input type='submit' value='Print' />
-                    </form>
-                </p>
+    <br>
+    <!-- 2.1 -->
+    <button id="newJob" type="button"> New Job</button>
+    <br>
+    <!-- Create New Print Job Modal -->
+    <div id="newJobModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">×</span>
+                <h2>New Print Job</h2>
+            </div>
+            <div class="modal-body">
+                <p>Some text in the Modal Body</p>
+                <p>Some other text...</p>
+                <button>Print</button>
+            </div>
+            <div class="modal-footer">
+                <h3></h3>
+            </div>
+        </div>
+    </div>
+    <!-- 2.2 -->
+    <button id="changePassword" type="button">Change Password</button>
+    <br>
+    <!-- Change Password Modal -->
+    <div id="passwordModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">×</span>
+                <h2>Change Password</h2>
+            </div>
+            <div class="modal-body">
                 <form id='passwordinput' action="javascript:changePw();" method='post' style="visibility:hidden">
                     <input id="oldpw" type="password" placeholder="old password" />
                     <br>
@@ -77,9 +64,45 @@
                     <br>
                     <input type='submit' value='Confirm' />
                 </form>
-                <div id="pwmessage" style="visibility:hidden">
-                    <H5>Password changed successfully.</H5>
-                </div>
+                <!-- <button>Change</button> -->
+            </div>
+            <div class="modal-footer">
+                <h3></h3>
+            </div>
+        </div>
+    </div>
+    <!-- 2.3 -->
+    <button id="historyBtn" type="button">History</button>
+    <br>
+    <H2>History:</H2>
+    <p>
+        <table style="width:100%" id="history">
+            <tr>
+                <th>Date</th>
+                <th>Filename</th>
+                <th>Fee ($)</th>
+            </tr>
+        </table>
+        <H2>Current Print Job:</H2>
+        <p id="show"></p>
+        <form id='fileinput' action='http://localhost:3000/upload' method='post' encType="multipart/form-data" style="visibility:hidden">
+            <input id="name" type="hidden" name="name" />
+            <input id="input" type="file" name="file" />
+            <input type='submit' value='Print' />
+        </form>
+    </p>
+    <form id='passwordinput' action="javascript:changePw();" method='post' style="visibility:hidden">
+        <input id="oldpw" type="password" placeholder="old password" />
+        <br>
+        <input id="newpw" type="password" placeholder="new password" />
+        <br>
+        <input id="retypepw" type="password" placeholder="retype new password" />
+        <br>
+        <input type='submit' value='Confirm' />
+    </form>
+    <div id="pwmessage" style="visibility:hidden">
+        <H5>Password changed successfully.</H5>
+    </div>
 </body>
 
 </html>
